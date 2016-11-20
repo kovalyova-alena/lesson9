@@ -69,11 +69,11 @@
     	var slider = new Slider();
 
     	slider.Handler = function () {
-    		this.buttons.addEventListener('click', slider.sliderMoveAS);
+    		this.buttons.addEventListener('click', slider.sliderMove);
     	};
 
 
-    	slider.sliderMoveAS = function (e) {
+    	slider.sliderMove = function (e) {
 			var target = e && e.target || e.srcElement;
 			this.attr = target.getAttribute('data-id');
 			console.log(this.ul);
