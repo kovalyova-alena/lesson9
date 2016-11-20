@@ -69,20 +69,20 @@
     	var slider = new Slider();
 
     	slider.Handler = function () {
+ 
     		this.buttons.addEventListener('click', slider.sliderMove);
     	};
 
-
     	slider.sliderMove = function (e) {
 			var target = e && e.target || e.srcElement;
+            var ul = document.querySelector('ul');
 			this.attr = target.getAttribute('data-id');
-			console.log(this.ul);
 
 			if (!this.attr) return;
 			if (this.attr == 'next') {
 			  slider.sliderHandler('firstElementChild', 'appendChild');
             } else {
-              slider.sliderHandler('lastElementChild', 'insertBefore', this.ul.firstElementChild);
+              slider.sliderHandler('lastElementChild', 'insertBefore', ul.firstElementChild);
             }
 
             slider.listToMove();  
