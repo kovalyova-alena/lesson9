@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Slider OOP</title>
+	<style type="text/css">
+    	div {
+    		width: 200px;
+    		height: 200px;
+    		overflow: hidden;
+    	}
+    	ul {
+    		list-style: none;
+    		padding: 0;
+    		margin: 0;
+    		position: relative;
+
+    	}
+    	li {
+ 			width: 200px;
+ 			height: 200px;
+ 			float: left;
+ 			transition: background 2s ease;
+    	}
+    	.first {
+    		background: red;
+    	}
+    	.second {
+    		background: blue;
+    	}
+    	.third {
+    		background: green;
+    	}
+    	button {
+    		width: 100px;
+    		height: 30px;
+    		margin-top: 10px;
+    	}
+    </style>
+</head>
+<body>
+	<div class="mySlider">
+    	<ul class="list">
+    		<li class="first"></li>
+    		<li class="second"></li>
+    		<li class="third"></li>
+    	</ul>
+    </div>
+    <div class="buttons">
+    	<button data-id="prev">Prev</button>
+    	<button data-id="next">Next</button>  	
+    </div>
+
+    <script>
+    	function Slider() {
+			this.ul = document.querySelector('ul');
+			this.width = this.ul.firstElementChild.clientWidth;
+			this.count = this.ul.children.length;
+			 	    
+		};
+
+		Slider.prototype.ulWidth = function () {
+    		this.ulWidth = (this.count+1)*this.width;
+			this.ul.style.width = this.ulWidth + 'px';	
+    	};
+
+    	Slider.prototype.buttons = document.querySelector('.buttons'); 
+
+    	var slider = new Slider();
+
+    	slider.Handler = function () {
+    		this.buttons.addEventListener('click', slider.sliderMoveAS);
+    	};
+
+
+    	slider.sliderMoveAS = function (e) {
+			var target = e && e.target || e.srcElement;
+			this.attr = target.getAttribute('data-id');
+			console.log(this.ul);
+
+			if (!this.attr) return;
+			if (this.attr == 'next') {
+			  slider.sliderHandler('firstElementChild', 'appendChild');
+            } else {
+              slider.sliderHandler('lastElementChild', 'insertBefore', this.ul.firstElementChild);
+            }
+
+            slider.listToMove();  
+    	};
+
+    	slider.sliderHandler = function (elem, method, params) {
+            this.element = this.ul[elem];
+            this.clone = this.element.cloneNode();
+
+            this.ul[method](this.clone, params);
+            slider.listToMove(-200);
+            this.ul.removeChild(this.element);    
+        };
+
+        slider.listToMove = function (left) {
+            this.left = this.left ? this.left: 0;
+            this.ul.style.cssText = 'left:' + this.left + 'px;';
+        };
+
+    	slider.Handler();
+    </script>
+</body>
+</html>
