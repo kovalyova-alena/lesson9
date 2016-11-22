@@ -56,53 +56,42 @@
 			this.ul = document.querySelector('ul');
 			this.width = this.ul.firstElementChild.clientWidth;
 			this.count = this.ul.children.length;
+            this.ulWidth = (this.count+1)*this.width;
+            this.ul.style.width = this.ulWidth + 'px';
+            this.buttons = document.querySelector('.buttons'); 
+            this.buttons.addEventListener('click', this.sliderMove.bind(this));
 			 	    
 		};
-
-		Slider.prototype.ulWidth = function () {
-    		this.ulWidth = (this.count+1)*this.width;
-			this.ul.style.width = this.ulWidth + 'px';	
-    	};
-
-    	Slider.prototype.buttons = document.querySelector('.buttons'); 
-
-    	var slider = new Slider();
-
-    	slider.Handler = function () {
- 
-    		this.buttons.addEventListener('click', slider.sliderMove);
-    	};
-
-    	slider.sliderMove = function (e) {
+   	
+        Slider.prototype.sliderMove = function (e) {
 			var target = e && e.target || e.srcElement;
-            var ul = document.querySelector('ul');
 			this.attr = target.getAttribute('data-id');
 
 			if (!this.attr) return;
 			if (this.attr == 'next') {
-			  slider.sliderHandler('firstElementChild', 'appendChild');
+			  this.sliderHandler('firstElementChild', 'appendChild');
             } else {
-              slider.sliderHandler('lastElementChild', 'insertBefore', ul.firstElementChild);
+              this.sliderHandler('lastElementChild', 'insertBefore', this.ul.firstElementChild);
             }
 
-            slider.listToMove();  
+            this.listToMove();  
     	};
 
-    	slider.sliderHandler = function (elem, method, params) {
+        Slider.prototype.sliderHandler = function (elem, method, params) {
             this.element = this.ul[elem];
             this.clone = this.element.cloneNode();
 
             this.ul[method](this.clone, params);
-            slider.listToMove(-200);
+            this.listToMove(-200);
             this.ul.removeChild(this.element);    
         };
 
-        slider.listToMove = function (left) {
+        Slider.prototype.listToMove = function (left) {
             this.left = this.left ? this.left: 0;
             this.ul.style.cssText = 'left:' + this.left + 'px;';
         };
 
-    	slider.Handler();
+    	new Slider();
     </script>
 </body>
 </html>
